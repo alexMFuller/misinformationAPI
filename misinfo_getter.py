@@ -8,7 +8,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
-api_key = "API KEY"
+api_key = "Secret"
 misinformation_keywords = loadtxt("fakeness.dat", comments="#", delimiter=",", unpack=False, dtype='str')
 
 
@@ -98,21 +98,29 @@ def calculate_percentage(youtubeInfo):
 
     #print(str(tokenTitle))
     #print(str(tokenDescription))
+    break_out_flag = False
 
     for keyword in misinformation_keywords:
         for titleword in tokenTitle:
-            if keyword[0] is titleword:
+            if titleword in keyword[0]:
                 #print(keyword[0])
                 percentage += 0.25
+                break_out_flag = True
                 break
 
+        if break_out_flag:
+            break
+    break_out_flag = False
     # print(str(percentage) + "title")
     for keyword in misinformation_keywords:
         for tokenword in tokenDescription:
-            if keyword[0] is tokenword:
+            if tokenword in keyword[0] :
                 #print(keyword[0])
+                break_out_flag = True
                 percentage += 0.25
                 break
+        if break_out_flag:
+            break
 
     # print(str(percentage) + "description")
     print(len(misinformation_keywords))
